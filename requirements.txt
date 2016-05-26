@@ -1,0 +1,5 @@
+cocos2d==0.6.3
+cx-Freeze==4.3.4
+hg+http://bitbucket.org/pygame/pygame#egg=pygame
+pyglet==1.2.4
+six==1.10.0
