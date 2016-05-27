@@ -9,30 +9,25 @@ import pygame
 class MainLayer(cocos.layer.Layer):
     is_event_handler = True
 
-    def __init__(self):
-        super(MainLayer, self).__init__()
-
     def on_key_press(self, key, modifiers):
         # print key, modifiers
-        trans = FadeTransition(
-            cocos.scene.Scene(menu.MenuScene()), duration=1
-        )
-        cocos.director.director.replace(trans)
+        print key
+        if self.can_skip:
+            trans = FadeTransition(
+                menu.MenuScene(), duration=1
+            )
+            cocos.director.director.replace(trans)
+            self.can_skip = False
         # cocos.director.director.exit()
         # pyglet.app.exit()
 
-
-class BackgroundLayer(cocos.layer.Layer):
     def __init__(self):
-        super(BackgroundLayer, self).__init__()
+        super(MainLayer, self).__init__()
 
-
-class TextLayer(cocos.layer.Layer):
-    def __init__(self):
-        super(TextLayer, self).__init__()
+        self.can_skip = False
 
         label = cocos.text.Label(
-            'axeHead',
+            'splash?',
             font_name='Arial',
             font_size=24,
             anchor_x='center',
@@ -90,9 +85,10 @@ class TextLayer(cocos.layer.Layer):
         hit = pygame.mixer.Sound('res/sounds/hit.ogg')
 
         def do_hit():
+            self.can_skip = True
+
             sleep(0.4)
             hit.play()
-            p = self.axe.position
             self.axe_box.do(reduce(lambda x, y: x + y, animations))
 
         thread = Thread(target=do_hit)

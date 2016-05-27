@@ -7,4 +7,5 @@ class MenuScene(cocos.scene.Scene):
         super(MenuScene, self).__init__(
             layers.MainLayer(),
             layers.BackgroundLayer(),
+            layers.LightningLayer(),
         )
