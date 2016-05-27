@@ -13,5 +13,5 @@ pygame.mixer.pre_init(44100, -16, 1, 512)
 pygame.mixer.init()
 
 cocos.director.director.init()
-# cocos.director.director.run(game.splash.SplashScene())
-cocos.director.director.run(game.menu.MenuScene())
+cocos.director.director.run(game.splash.SplashScene())
+# cocos.director.director.run(game.menu.MenuScene())
