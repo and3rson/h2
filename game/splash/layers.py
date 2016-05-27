@@ -33,7 +33,7 @@ class TextLayer(cocos.layer.Layer):
 
         label = cocos.text.Label(
             'axeHead',
-            font_name='Roboto Medium',
+            font_name='Arial',
             font_size=24,
             anchor_x='center',
             anchor_y='center'
@@ -84,8 +84,6 @@ class TextLayer(cocos.layer.Layer):
         # )
         self.axe.do(cocos.actions.MoveBy((-w / 3 * 2, 0), duration=0.4))
 
-        pygame.mixer.pre_init(44100, -16, 1, 512)
-        pygame.mixer.init()
         whip = pygame.mixer.Sound('res/sounds/whip.ogg')
         whip.set_volume(0.7)
         whip.play()

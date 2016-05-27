@@ -6,6 +6,17 @@ executables = [cx_Freeze.Executable("app.py")]
 cx_Freeze.setup(
     name="H2",
     version="1",
-    options={"build_exe": {"packages": ["pyglet", "cocos", "pygame"]}},
-    executables = executables
+    options=dict(
+        build_exe=dict(
+            packages=[
+                "pyglet",
+                "cocos",
+                "pygame"
+            ],
+            include_files=[
+                'res'
+            ]
+        )
+    ),
+    executables=executables
 )
