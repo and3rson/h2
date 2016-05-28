@@ -1,4 +1,5 @@
 import cocos
+import cocos.particle_systems
 import pygame
 import pyglet
 import math
@@ -6,6 +7,7 @@ from time import time
 from random import random
 # from cocos.scenes.transitions import *
 from ..common.nodes import LightningNode
+from ..common.particles import Rain
 
 
 class MainLayer(cocos.layer.Layer):
@@ -33,6 +35,10 @@ class LightningLayer(cocos.layer.ColorLayer):
         self.lightning = LightningNode()
         self.lightning.position = w / 2, h
         self.add(self.lightning)
+
+        self.sun = Rain(w, h)
+        self.sun.position = w / 2, h
+        self.add(self.sun)
 
     def draw(self):
         time_passed = time() - self.last_draw
@@ -65,7 +71,7 @@ class BackgroundLayer(cocos.layer.scrolling.ScrollableLayer):
 
         self.do(
             cocos.actions.Repeat(
-                cocos.actions.MoveBy((-self.sky.width / 2, 0), duration=15) +
+                cocos.actions.MoveBy((-self.sky.width / 2, 0), duration=30) +
                 cocos.actions.MoveBy((self.sky.width / 2, 0), duration=0)
             )
         )

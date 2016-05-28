@@ -3,3 +3,4 @@ cx-Freeze==4.3.4
 -e hg+http://bitbucket.org/pygame/pygame#egg=pygame
 pyglet==1.2.4
 six==1.10.0
+numpy==1.11.0
