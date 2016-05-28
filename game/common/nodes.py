@@ -77,6 +77,8 @@ class LightningGenerator(Thread):
         return lines
 
     def run(self):
+        start = time()
+
         w, h = cocos.director.director.get_window_size()
 
         # self.modification_lock.acquire()
@@ -87,6 +89,7 @@ class LightningGenerator(Thread):
 
         self.result = lines
 
+        # print 'Lightning generated in', time() - start, 's'
 
 class LightningNode(cocos.cocosnode.CocosNode):
     def __init__(self):
@@ -101,8 +104,6 @@ class LightningNode(cocos.cocosnode.CocosNode):
 
         self.last_draw = 0
 
-        self.layer = None
-
     def draw(self, *args, **kwargs):
         # if self.new_lines:
         #     for line in self.lines:
@@ -113,6 +114,7 @@ class LightningNode(cocos.cocosnode.CocosNode):
         #     self.new_lines = False
 
         if self.generator and self.generator.result:
+            start = time()
             for line in self.lines:
                 line.kill()
             self.lines = self.generator.result
@@ -123,18 +125,9 @@ class LightningNode(cocos.cocosnode.CocosNode):
             w, h = cocos.director.director.get_window_size()
             self.position = random() * w, h
 
-        time_passed = time() - self.last_draw
-        if time_passed < 0.3:
-            opacity = int((math.sin(time_passed * math.pi * 20) + 1) / 2 * 255)
-        else:
-            opacity = 0
-        for line in self.lines:
-            line.color = (255, 255, 255, opacity)
-        if self.layer:
-            self.layer.opacity = opacity / 2
-
-        if time_passed > 1 and random() < 0.1:
-            self.generator = LightningGenerator()
-            self.generator.start()
         # print 'LightningNode.draw', args, kwargs
         super(LightningNode, self).draw(*args, **kwargs)
+
+    def generate(self):
+            self.generator = LightningGenerator()
+            self.generator.start()

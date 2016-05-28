@@ -1,19 +1,22 @@
 import cocos
 import pygame
 import pyglet
+import math
+from time import time
+from random import random
 # from cocos.scenes.transitions import *
 from ..common.nodes import LightningNode
 
 
 class MainLayer(cocos.layer.Layer):
     is_event_handler = True
+    music = pygame.mixer.Sound('res/music/ChinaDoll.ogg')
 
     def __init__(self):
         super(MainLayer, self).__init__()
 
-        music = pygame.mixer.Sound('res/music/ChinaDoll.ogg')
-        music.set_volume(0.7)
-        music.play()
+        MainLayer.music.set_volume(0.7)
+        MainLayer.music.play()
 
     def on_key_press(self, key, modifiers):
         if key in xrange(256) and chr(key) == 'q':
@@ -25,10 +28,27 @@ class LightningLayer(cocos.layer.ColorLayer):
         super(LightningLayer, self).__init__(255, 255, 255, 0)
         w, h = cocos.director.director.get_window_size()
 
+        self.last_draw = 0
+
         self.lightning = LightningNode()
-        self.lightning.layer = self
         self.lightning.position = w / 2, h
         self.add(self.lightning)
+
+    def draw(self):
+        time_passed = time() - self.last_draw
+
+        if time_passed < 0.3:
+            opacity = int((math.sin(time_passed * math.pi * 20) + 1) / 2 * 255)
+        else:
+            opacity = 0
+        self.lightning.visible = opacity > 128
+        self.opacity = opacity / 2
+
+        if time_passed > 1 and random() < 0.1:
+            self.lightning.generate()
+            self.last_draw = time()
+
+        super(LightningLayer, self).draw()
 
 
 class BackgroundLayer(cocos.layer.scrolling.ScrollableLayer):
