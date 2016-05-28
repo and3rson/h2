@@ -11,7 +11,8 @@ cx_Freeze.setup(
             packages=[
                 "pyglet",
                 "cocos",
-                "pygame"
+                "pygame",
+                "numpy"
             ],
             include_files=[
                 'res'

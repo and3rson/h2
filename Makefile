@@ -49,6 +49,7 @@ build_wine:
 	cp ../.wine_h2/drive_c/windows/system32/python27.dll build/exe.win32-2.7
 	# cp ${WINEPREFIX}/drive_c/libs/*.dll build/exe.win32-2.7
 	cp ${WINEPREFIX}/drive_c/Lib/site-packages/pygame/*.dll build/exe.win32-2.7
+	cp ${WINEPREFIX}/drive_c/python27/Lib/site-packages/numpy/core/numpy-atlas.dll build/exe.win32-2.7
 
 run_linux:
 	./app.py

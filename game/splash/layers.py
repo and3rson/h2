@@ -13,6 +13,9 @@ class MainLayer(cocos.layer.Layer):
         # print key, modifiers
         # print key
         if self.can_skip:
+            self.end_scene()
+
+    def end_scene(self):
             trans = FadeTransition(
                 menu.MenuScene(), duration=1
             )
@@ -78,6 +81,8 @@ class MainLayer(cocos.layer.Layer):
         #     cocos.actions.Rotate(8, duration=0.05)
         # )
         self.axe.do(cocos.actions.MoveBy((-w / 3 * 2, 0), duration=0.4))
+
+        self.do(cocos.actions.Delay(3) + cocos.actions.CallFunc(self.end_scene))
 
         whip = pygame.mixer.Sound('res/sounds/whip.ogg')
         whip.set_volume(0.7)
