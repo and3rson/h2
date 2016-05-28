@@ -16,7 +16,9 @@ cx_Freeze.setup(
             ],
             include_files=[
                 'res'
-            ]
+            ],
+            # create_shared_zip=True,
+            # include_in_shared_zip=True
         )
     ),
     executables=executables

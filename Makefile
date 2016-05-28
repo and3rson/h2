@@ -51,6 +51,9 @@ build_wine:
 	cp ${WINEPREFIX}/drive_c/Lib/site-packages/pygame/*.dll build/exe.win32-2.7
 	cp ${WINEPREFIX}/drive_c/python27/Lib/site-packages/numpy/core/numpy-atlas.dll build/exe.win32-2.7
 
+# build_wine_installer:
+# 	WINEPREFIX="${WINEPREFIX}" WINEARCH="${WINEARCH}" WINEPATH="${WINEPATH}" wine python ./setup.py bdist_msi
+
 run_linux:
 	./app.py
 
