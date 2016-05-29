@@ -6,6 +6,7 @@ class MenuScene(cocos.scene.Scene):
     def __init__(self):
         super(MenuScene, self).__init__(
             layers.MainLayer(),
-            layers.BackgroundLayer(),
+            layers.SkyCloudsLayer(),
+            layers.SkyMountainsLayer(),
             layers.LightningLayer(),
         )

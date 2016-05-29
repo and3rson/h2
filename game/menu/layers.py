@@ -62,13 +62,37 @@ class LightningLayer(cocos.layer.ColorLayer):
         super(LightningLayer, self).draw()
 
 
-class BackgroundLayer(cocos.layer.scrolling.ScrollableLayer):
+class SkyCloudsLayer(cocos.layer.scrolling.ScrollableLayer):
     def __init__(self):
-        super(BackgroundLayer, self).__init__()
+        super(SkyCloudsLayer, self).__init__()
 
         w, h = cocos.director.director.get_window_size()
 
-        self.sky = cocos.sprite.Sprite('res/sprites/sky.png', anchor=(0, 0))
+        self.sky = cocos.sprite.Sprite(
+            'res/sprites/sky_clouds.png', anchor=(0, 0)
+        )
+        k = float(h) / self.sky.height
+        self.sky.scale = k
+        self.sky.position = 0, 0
+        self.add(self.sky)
+
+        self.do(
+            cocos.actions.Repeat(
+                cocos.actions.MoveBy((-self.sky.width / 2, 0), duration=90) +
+                cocos.actions.MoveBy((self.sky.width / 2, 0), duration=0)
+            )
+        )
+
+
+class SkyMountainsLayer(cocos.layer.scrolling.ScrollableLayer):
+    def __init__(self):
+        super(SkyMountainsLayer, self).__init__()
+
+        w, h = cocos.director.director.get_window_size()
+
+        self.sky = cocos.sprite.Sprite(
+            'res/sprites/sky_mountains.png', anchor=(0, 0)
+        )
         k = float(h) / self.sky.height
         self.sky.scale = k
         self.sky.position = 0, 0
