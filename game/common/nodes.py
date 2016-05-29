@@ -123,7 +123,7 @@ class LightningNode(cocos.cocosnode.CocosNode):
             self.generator = None
             self.last_draw = time()
             w, h = cocos.director.director.get_window_size()
-            self.position = random() * w, h
+            # self.position = random() * w, h
 
         # print 'LightningNode.draw', args, kwargs
         super(LightningNode, self).draw(*args, **kwargs)

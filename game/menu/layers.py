@@ -36,9 +36,11 @@ class LightningLayer(cocos.layer.ColorLayer):
         self.lightning.position = w / 2, h
         self.add(self.lightning)
 
-        self.sun = Rain(w, h)
-        self.sun.position = w / 2, h
-        self.add(self.sun)
+        self.rain = Rain(w, h)
+        self.rain.position = w / 2, h
+        self.add(self.rain)
+
+        self.next_lightning = 0
 
     def draw(self):
         time_passed = time() - self.last_draw
@@ -50,9 +52,12 @@ class LightningLayer(cocos.layer.ColorLayer):
         self.lightning.visible = opacity > 128
         self.opacity = opacity / 2
 
-        if time_passed > 1 and random() < 0.1:
+        if self.next_lightning <= time():
+            w, h = cocos.director.director.get_window_size()
+            self.lightning.position = random() * w / 2 + w / 4, h
             self.lightning.generate()
             self.last_draw = time()
+            self.next_lightning = time() + 1 + random() * 4
 
         super(LightningLayer, self).draw()
 
