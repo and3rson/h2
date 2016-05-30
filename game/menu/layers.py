@@ -14,13 +14,14 @@ from ..common.db import DB
 
 class MainLayer(cocos.layer.Layer):
     # is_event_handler = True
-    music = pygame.mixer.Sound('res/music/ChinaDoll.ogg')
+    # music = pygame.mixer.Sound('res/music/ChinaDoll.ogg')
+    music = cocos.audio.pygame.mixer.Sound('res/music/idle.ogg')
 
     def __init__(self):
         super(MainLayer, self).__init__()
 
         MainLayer.music.set_volume(0.7)
-        MainLayer.music.play()
+        MainLayer.music.play(-1)
 
     # def on_key_press(self, key, modifiers):
     #     if key in xrange(256) and chr(key) == 'q':
@@ -124,8 +125,8 @@ class MenuLayer(cocos.menu.Menu):
         self.menu_vmargin = 20
         self.menu_hmargin = 20
 
-        self.title = 'asd'
-        self.title_text = 'asdasd'
+        # self.title = 'asd'
+        # self.title_text = 'asdasd'
 
         self.font_item['font_name'] = 'Monospace'
         self.font_item['font_size'] = 24
