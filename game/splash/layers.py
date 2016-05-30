@@ -12,10 +12,10 @@ class MainLayer(cocos.layer.Layer):
     def on_key_press(self, key, modifiers):
         # print key, modifiers
         # print key
-        if self.can_skip:
-            self.end_scene()
+        self.end_scene()
 
     def end_scene(self):
+        if self.can_skip:
             trans = FadeTransition(
                 menu.MenuScene(), duration=1
             )

@@ -5,9 +5,10 @@ import pyglet
 import math
 from time import time
 from random import random
-# from cocos.scenes.transitions import *
+from cocos.scenes.transitions import *
 from ..common.nodes import LightningNode
 from ..common.particles import Rain
+from pyglet.gl import *
 
 
 class MainLayer(cocos.layer.Layer):
@@ -71,6 +72,10 @@ class SkyCloudsLayer(cocos.layer.scrolling.ScrollableLayer):
         self.sky = cocos.sprite.Sprite(
             'res/sprites/sky_clouds.png', anchor=(0, 0)
         )
+        # help(self.sky.image)
+        # print self.sky.image.mag_filter
+        # self.sky.image.min_filter = GL_NEAREST
+        # self.sky.image.mag_filter = GL_NEAREST
         k = float(h) / self.sky.height
         self.sky.scale = k
         self.sky.position = 0, 0
@@ -100,7 +105,44 @@ class SkyMountainsLayer(cocos.layer.scrolling.ScrollableLayer):
 
         self.do(
             cocos.actions.Repeat(
-                cocos.actions.MoveBy((-self.sky.width / 2, 0), duration=30) +
+                cocos.actions.MoveBy((-self.sky.width / 2, 0), duration=15) +
                 cocos.actions.MoveBy((self.sky.width / 2, 0), duration=0)
             )
+        )
+
+
+class MenuLayer(cocos.menu.Menu):
+    def __init__(self):
+        super(MenuLayer, self).__init__()
+
+        self.create_menu(
+            [
+                cocos.menu.MenuItem('Start', self.on_menu_start),
+                cocos.menu.MenuItem('Exit', self.on_menu_exit),
+            ],
+            self.shift(),
+            cocos.menu.shake_back(),
+            self.explode()
+        )
+
+    def shift(self):
+        action = cocos.actions.ScaleBy(1.25, duration=0.05)
+        return action + cocos.actions.Reverse(action)
+
+    def explode(self):
+        # return (
+        #     cocos.actions.ScaleBy(10, duration=0.1) |
+        #     cocos.actions.FadeOutTRTiles(duration=0.1)
+        # )
+        action = cocos.actions.ScaleBy(0.75, duration=0.05)
+        return action + cocos.actions.Reverse(action)
+
+    def on_menu_start(self):
+        print 'Start'
+
+    def on_menu_exit(self):
+        print 'Exit'
+        self.do(
+            cocos.actions.Delay(0.1) +
+            cocos.actions.CallFunc(pyglet.app.exit)
         )
