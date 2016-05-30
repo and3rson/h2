@@ -12,8 +12,12 @@ pygame.mixer.init()
 
 import game.splash
 import game.menu
+from game.common.db import DB
+
+# print DB.get('config').data.get('show_fps')
+# DB.get('config').data['show_fps'] = 333
 
 cocos.director.director.init()
-cocos.director.director.show_FPS = True
+cocos.director.director.show_FPS = DB.get('config').data.get('show_fps')
 cocos.director.director.run(game.splash.SplashScene())
 # cocos.director.director.run(game.menu.MenuScene())

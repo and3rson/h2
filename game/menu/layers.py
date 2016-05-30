@@ -9,10 +9,11 @@ from cocos.scenes.transitions import *
 from ..common.nodes import LightningNode
 from ..common.particles import Rain
 from pyglet.gl import *
+from ..common.db import DB
 
 
 class MainLayer(cocos.layer.Layer):
-    is_event_handler = True
+    # is_event_handler = True
     music = pygame.mixer.Sound('res/music/ChinaDoll.ogg')
 
     def __init__(self):
@@ -21,9 +22,9 @@ class MainLayer(cocos.layer.Layer):
         MainLayer.music.set_volume(0.7)
         MainLayer.music.play()
 
-    def on_key_press(self, key, modifiers):
-        if key in xrange(256) and chr(key) == 'q':
-            pyglet.app.exit()
+    # def on_key_press(self, key, modifiers):
+    #     if key in xrange(256) and chr(key) == 'q':
+    #         pyglet.app.exit()
 
 
 class LightningLayer(cocos.layer.ColorLayer):
@@ -111,30 +112,79 @@ class SkyMountainsLayer(cocos.layer.scrolling.ScrollableLayer):
         )
 
 
+class ShadeLayer(cocos.layer.ColorLayer):
+    def __init__(self):
+        super(ShadeLayer, self).__init__(0, 0, 0, 128)
+
+
 class MenuLayer(cocos.menu.Menu):
     def __init__(self):
         super(MenuLayer, self).__init__()
 
+        self.menu_vmargin = 20
+        self.menu_hmargin = 20
+
+        self.title = 'asd'
+        self.title_text = 'asdasd'
+
+        self.font_item['font_name'] = 'Monospace'
+        self.font_item['font_size'] = 24
+        self.font_item['color'] = (255, 255, 255, 255)
+        self.font_item_selected['font_name'] = 'Monospace'
+        self.font_item_selected['font_size'] = 24
+        self.font_item_selected['color'] = (128, 255, 255, 255)
+
+        self.show_home()
+
+    def _clear(self):
+        for child in self.get_children():
+            child.kill()
+
+    def show_home(self):
+        self._clear()
+
         self.create_menu(
             [
-                cocos.menu.MenuItem('Start', self.on_menu_start),
-                cocos.menu.MenuItem('Exit', self.on_menu_exit),
+                cocos.menu.MenuItem('Start'.upper(), self.on_menu_start),
+                cocos.menu.MenuItem('Options'.upper(), self.show_options),
+                cocos.menu.MenuItem('Exit'.upper(), self.on_menu_exit)
             ],
             self.shift(),
             cocos.menu.shake_back(),
             self.explode()
         )
 
+    def show_options(self):
+        self._clear()
+
+        self.create_menu(
+            [
+                cocos.menu.ToggleMenuItem(
+                    'Show FPS: '.upper(),
+                    self.toggle_show_fps,
+                    self.is_show_fps()
+                ),
+                cocos.menu.MenuItem('Back', self.show_home)
+            ],
+            self.shift(),
+            cocos.menu.shake_back(),
+            self.explode()
+        )
+
+    def toggle_show_fps(self, value):
+        DB.get('config').data['show_fps'] = value
+        cocos.director.director.show_FPS = value
+
+    def is_show_fps(self):
+        print DB.get('config').data.get('show_fps', False)
+        return DB.get('config').data.get('show_fps', False)
+
     def shift(self):
-        action = cocos.actions.ScaleBy(1.25, duration=0.05)
+        action = cocos.actions.ScaleBy(1.1, duration=0.05)
         return action + cocos.actions.Reverse(action)
 
     def explode(self):
-        # return (
-        #     cocos.actions.ScaleBy(10, duration=0.1) |
-        #     cocos.actions.FadeOutTRTiles(duration=0.1)
-        # )
-        action = cocos.actions.ScaleBy(0.75, duration=0.05)
+        action = cocos.actions.ScaleBy(0.9, duration=0.05)
         return action + cocos.actions.Reverse(action)
 
     def on_menu_start(self):

@@ -91,6 +91,7 @@ class LightningGenerator(Thread):
 
         # print 'Lightning generated in', time() - start, 's'
 
+
 class LightningNode(cocos.cocosnode.CocosNode):
     def __init__(self):
         super(LightningNode, self).__init__()
