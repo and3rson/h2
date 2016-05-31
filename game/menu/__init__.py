@@ -10,5 +10,5 @@ class MenuScene(cocos.scene.Scene):
             layers.SkyMountainsLayer(),
             layers.LightningLayer(),
             layers.ShadeLayer(),
-            layers.MenuLayer()
+            layers.MenuLayer(),
         )

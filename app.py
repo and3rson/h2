@@ -3,6 +3,9 @@
 import sys
 
 import cocos
+from game.common.layers import PythonLayer
+cocos.layer.PythonInterpreterLayer.cfg = PythonLayer.cfg
+
 import pygame
 if sys.platform.startswith('win'):
     import pygame._view

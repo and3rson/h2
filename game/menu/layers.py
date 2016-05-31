@@ -188,6 +188,9 @@ class MenuLayer(cocos.menu.Menu):
         action = cocos.actions.ScaleBy(0.9, duration=0.05)
         return action + cocos.actions.Reverse(action)
 
+    def on_quit(self):
+        self.show_home()
+
     def on_menu_start(self):
         print 'Start'
 
